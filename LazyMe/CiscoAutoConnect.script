@@ -1,0 +1,53 @@
+--	For Mac OSX
+
+--	PURPOSE
+--
+--	Are you using Cisco AnyConnect VPN Client a lot?
+--	Do you have to type in the credentials a million times?
+--	Do you wish to automatically connect to the VPN everytime you open this VPN client?
+--
+--	HOWTO
+--
+--	1. Enable access for assistive devices from System Preferences
+--		It is a checkbox located within Privacy -> Accessibility
+--		If your Mac OSX version 10.7 or eariler, go to Universal Access
+--		Check the box "Enable access for assistive devices" at the botton
+--	2. Open Applescript Editor, and paste this file contentinto a new editor
+--	3. Replace "your.vpn.com" and "yourpassword" with your VPN server and password
+--  4. Quit Cisco Connect VPN if it is still running
+--	5. Click on the Run button on the editor 
+--		You will see the Cisco VPN is automatically filled in with value and connected
+--	6. Now go to File -> Save as
+--		Give it a name, such as AutoCiscoConnect
+--		Choose File format -> Application
+--		Save it to a location, for example, /Applications/AutoCiscoConnect
+--	7. Go to /Applications,
+--		drag the file AutoCiscoConnect
+--		drop it somewhere in the Doc
+--	8. From now on, by running this application, you don't have to type in credentials anymore! 
+
+tell application "Cisco AnyConnect VPN Client"
+	activate
+end tell
+repeat until application "Cisco AnyConnect VPN Client" is running
+	delay 1
+end repeat
+tell application "System Events"
+	repeat until (window 1 of process "Cisco AnyConnect VPN Client" exists)
+		delay 1
+	end repeat
+	tell process "Cisco AnyConnect VPN Client"
+		keystroke ("your.vpn.com" as string)
+		keystroke return
+	
+		delay 5
+	
+		keystroke ("yourpassword" as string)
+		keystroke return
+	
+		delay 5
+	
+		keystroke return
+	end tell
+	
+end tell
